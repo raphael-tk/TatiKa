@@ -9,6 +9,9 @@ interface TimeDao {
     @Query("SELECT * FROM times WHERE ligaId = :ligaId")
     suspend fun getTimesByLiga(ligaId: Int): List<TimeEntity>
 
+    @Query("SELECT * FROM times")
+    suspend fun getAllTimes(): List<TimeEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(time: TimeEntity): Long
 }

@@ -1,12 +1,13 @@
 package com.tralkamy.tatika.logic
 
+import android.util.Log
 import com.tralkamy.tatika.model.Partida
 import kotlin.math.exp
 import kotlin.math.pow
 import kotlin.random.Random
 
 
-private const val BASE_DIVISOR = 50.0
+private const val xG = 2.4
 
 object Simulador {
 
@@ -22,12 +23,14 @@ object Simulador {
         return  k - 1
     }
     fun simular(partida:Partida):Partida{
-        val fatorMandante = 1.1
+        val fatorMandante = 1.05
+        val forcaMandante = partida.mandante.ataque + partida.mandante.meio + partida.mandante.defesa
+        val forcaVisitante = partida.visitante.ataque + partida.visitante.meio + partida.visitante.defesa
 
+        val mediaMandante = (forcaMandante / 300.0) * xG * fatorMandante
+        val mediaVisitante = (forcaVisitante / 300.0) * xG
 
-        val mediaMandante = (partida.mandante.forca * fatorMandante) / BASE_DIVISOR
-        val mediaVisitante = partida.visitante.forca / BASE_DIVISOR
-
+        Log.d("SIMULADOR", "Média Mandante: $mediaMandante | Média Visitante: $mediaVisitante")
         partida.golsMandante = gerarGolsPoisson(mediaMandante)
         partida.golsVisitante = gerarGolsPoisson(mediaVisitante)
 

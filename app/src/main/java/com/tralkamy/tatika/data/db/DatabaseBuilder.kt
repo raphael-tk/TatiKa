@@ -13,7 +13,9 @@ object DatabaseBuilder {
                 context.applicationContext,
                 AppDatabase::class.java,
                 "tatika.db"
-            ).build()
+            )
+                .createFromAsset("tatika.db")
+                .build()
             INSTANCE = instance
             instance
         }

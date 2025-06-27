@@ -1,10 +1,10 @@
 package com.tralkamy.tatika.logic
 
+import com.tralkamy.tatika.data.entity.TimeEntity
 import com.tralkamy.tatika.model.Partida
-import com.tralkamy.tatika.model.Time
 
 object Rodada {
-    fun criarJogos(times: List<Time>): List<Partida> {
+    fun criarJogos(times: List<TimeEntity>): List<Partida> {
         val jogos = mutableListOf<Partida>()
         for (i in times.indices step 2) {
             if (i + 1 < times.size) {
