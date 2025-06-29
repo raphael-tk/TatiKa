@@ -9,6 +9,7 @@ import com.tralkamy.tatika.data.db.AppDatabase
 import com.tralkamy.tatika.data.db.DatabaseBuilder
 import com.tralkamy.tatika.data.db.dao.TimeDao
 import com.tralkamy.tatika.data.db.dao.PartidaDao
+import com.tralkamy.tatika.data.entity.TimeEntity
 import com.tralkamy.tatika.ligas.Brasileirao
 import com.tralkamy.tatika.logic.Simulador
 import com.tralkamy.tatika.model.Partida
@@ -20,9 +21,13 @@ class MainActivity : ComponentActivity() {
 
         val db = DatabaseBuilder.getInstance(this)
 
-
+        // Força criação da tabela e inserção de teste
         lifecycleScope.launch {
-                 Brasileirao.simularCampeonato(db.timeDao(), db.partidaDao())
+
+            val lista = db.timeDao().getAllTimes()
+            Log.d("BANCO", "Times no banco: ${lista.map { it.nome }}")
         }
+        db.query("PRAGMA wal_checkpoint(FULL)", null)
     }
 }
+

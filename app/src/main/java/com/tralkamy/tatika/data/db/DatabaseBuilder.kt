@@ -21,5 +21,4 @@ object DatabaseBuilder {
             instance
         }
     }
-
 }
