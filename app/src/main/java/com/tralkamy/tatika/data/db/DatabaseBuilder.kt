@@ -14,10 +14,12 @@ object DatabaseBuilder {
                 AppDatabase::class.java,
                 "tatika.db"
             )
-                .createFromAsset("tatika.db")
+                //.createFromAsset("tatika.db") // ⚠️ REMOVE ISSO
+                .fallbackToDestructiveMigration() // apaga o banco antigo se versão mudar
                 .build()
             INSTANCE = instance
             instance
         }
     }
+
 }
