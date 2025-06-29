@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.tralkamy.tatika.data.db.AppDatabase
 import com.tralkamy.tatika.data.db.DatabaseBuilder
+import com.tralkamy.tatika.data.db.dao.TimeDao
 import com.tralkamy.tatika.logic.Simulador
 import com.tralkamy.tatika.model.Partida
 import kotlinx.coroutines.launch
@@ -13,37 +16,32 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val db = DatabaseBuilder.getInstance(this)
+
+
         lifecycleScope.launch {
-            val db = DatabaseBuilder.getInstance(this@MainActivity)
-            val todosOsTimes = db.timeDao().getAllTimes()
-
-            // Garante que tem pelo menos 20 times
-            if (todosOsTimes.size < 20) {
-                Log.d("SIMULADOR", "Menos de 20 times no banco!")
-                return@launch
-            }
-
-            // Pega só os 20 primeiros
-            val times = todosOsTimes.take(20)
-
-            // Simula todos contra todos
-            for (i in times.indices) {
-                for (j in times.indices) {
-                    if (i != j) {
-                        val partida = Partida(
-                            mandante = times[i],
-                            visitante = times[j],
-                            golsMandante = 0,
-                            golsVisitante = 0
-                        )
-                        val resultado = Simulador.simular(partida)
-                        Log.d(
-                            "SIMULADOR",
-                            "${resultado.mandante.nome} ${resultado.golsMandante} x ${resultado.golsVisitante} ${resultado.visitante.nome}"
-                        )
-                    }
-                }
-            }
+            testarPuxarTimesETestarSimulador(db.timeDao())
         }
     }
+
+    suspend fun testarPuxarTimesETestarSimulador(timeDao: TimeDao) {
+        val todosTimes = timeDao.getAllTimes()
+        val primeiros20 = todosTimes.take(20)
+
+        primeiros20.forEach {
+            println("Time: ${it.nome} | Ataque: ${it.ataque} | Meio: ${it.meio} | Defesa: ${it.defesa}")
+        }
+
+        if (primeiros20.size >= 2) {
+            val partida = Partida(
+                mandante = primeiros20[0],
+                visitante = primeiros20[1]
+            )
+            val resultado = Simulador.simular(partida)
+            println("Resultado: ${resultado.mandante.nome} ${resultado.golsMandante} x ${resultado.golsVisitante} ${resultado.visitante.nome}")
+        } else {
+            println("Não tem times suficientes na DB pra simular uma partida.")
+        }
+    }
+
 }

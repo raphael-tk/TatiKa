@@ -2,5 +2,7 @@ package com.tralkamy.tatika.model
 
 data class Time(
     val nome: String,
-    var forca: Int
+    val ataque: Int,
+    val meio: Int,
+    val defesa: Int
 )
