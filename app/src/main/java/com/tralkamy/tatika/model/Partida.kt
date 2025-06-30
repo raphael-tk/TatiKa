@@ -1,10 +1,11 @@
 package com.tralkamy.tatika.model
 
-import com.tralkamy.tatika.data.entity.TimeEntity
-
 data class Partida(
-    val mandante: TimeEntity,
-    val visitante: TimeEntity,
-    var golsMandante: Int = 0,
-    var golsVisitante: Int = 0
+    val id: Int = 0,
+    val temporada: Int,
+    val rodada: Int,
+    val mandanteId: Int,
+    val visitanteId: Int,
+    val golsMandante: Int,
+    val golsVisitante: Int
 )

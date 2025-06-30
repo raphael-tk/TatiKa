@@ -1,17 +1,43 @@
 package com.tralkamy.tatika.data.db.dao
 
-import androidx.room.*
-import com.tralkamy.tatika.data.entity.TimeEntity
+import android.content.ContentValues
+import android.content.Context
+import com.tralkamy.tatika.data.db.TatiKaSQLiteHelper
 import com.tralkamy.tatika.model.Time
 
-@Dao
-interface TimeDao {
-    @Query("SELECT * FROM times WHERE ligaId = :ligaId")
-    suspend fun getTimesByLiga(ligaId: Int): List<TimeEntity>
+class TimeDao(context: Context) {
+    private val dbHelper = TatiKaSQLiteHelper(context)
 
-    @Query("SELECT * FROM times")
-    suspend fun getAllTimes(): List<TimeEntity>
+    fun inserir(time: Time): Long {
+        val db = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put("nome", time.nome)
+            put("ataque", time.ataque)
+            put("meio", time.meio)
+            put("defesa", time.defesa)
+            put("ligaId", time.ligaId)
+        }
+        return db.insert("times", null, values)
+    }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(time: TimeEntity): Long
+    fun listarTodos(): List<Time> {
+        val db = dbHelper.readableDatabase
+        val cursor = db.query("times", null, null, null, null, null, null)
+        val times = mutableListOf<Time>()
+        while (cursor.moveToNext()) {
+            val time = Time(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow("id")),
+                nome = cursor.getString(cursor.getColumnIndexOrThrow("nome")),
+                ataque = cursor.getInt(cursor.getColumnIndexOrThrow("ataque")),
+                meio = cursor.getInt(cursor.getColumnIndexOrThrow("meio")),
+                defesa = cursor.getInt(cursor.getColumnIndexOrThrow("defesa")),
+                ligaId = cursor.getInt(cursor.getColumnIndexOrThrow("ligaId"))
+            )
+            times.add(time)
+        }
+        cursor.close()
+        return times
+    }
+
+    // Adiciona métodos update e delete se quiser
 }
