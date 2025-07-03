@@ -1,22 +1,13 @@
-package com.tralkamy.tatika.data.db
-
 import android.content.Context
-import androidx.room.Room
+import com.tralkamy.tatika.data.db.TatiKaSQLiteHelper
 
 object DatabaseBuilder {
     @Volatile
-    private var INSTANCE: AppDatabase? = null
+    private var INSTANCE: TatiKaSQLiteHelper? = null
 
-    fun getInstance(context: Context): AppDatabase {
+    fun getInstance(context: Context): TatiKaSQLiteHelper {
         return INSTANCE ?: synchronized(this) {
-            val instance = Room.databaseBuilder(
-                context.applicationContext,
-                AppDatabase::class.java,
-                "tatika.db"
-            )
-                //.createFromAsset("tatika.db") // ⚠️ REMOVE ISSO
-                .fallbackToDestructiveMigration() // apaga o banco antigo se versão mudar
-                .build()
+            val instance = TatiKaSQLiteHelper(context.applicationContext)
             INSTANCE = instance
             instance
         }

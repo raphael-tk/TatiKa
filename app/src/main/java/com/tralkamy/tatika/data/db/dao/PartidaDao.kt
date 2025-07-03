@@ -33,7 +33,9 @@ class PartidaDao(context: Context) {
                 mandanteId = cursor.getInt(cursor.getColumnIndexOrThrow("mandanteId")),
                 visitanteId = cursor.getInt(cursor.getColumnIndexOrThrow("visitanteId")),
                 golsMandante = cursor.getInt(cursor.getColumnIndexOrThrow("golsMandante")),
-                golsVisitante = cursor.getInt(cursor.getColumnIndexOrThrow("golsVisitante"))
+                golsVisitante = cursor.getInt(cursor.getColumnIndexOrThrow("golsVisitante")),
+                mandante = TODO(),
+                visitante = TODO()
             )
             partidas.add(partida)
         }

@@ -31,7 +31,9 @@ class TimeDao(context: Context) {
                 ataque = cursor.getInt(cursor.getColumnIndexOrThrow("ataque")),
                 meio = cursor.getInt(cursor.getColumnIndexOrThrow("meio")),
                 defesa = cursor.getInt(cursor.getColumnIndexOrThrow("defesa")),
-                ligaId = cursor.getInt(cursor.getColumnIndexOrThrow("ligaId"))
+                ligaId = cursor.getInt(cursor.getColumnIndexOrThrow("ligaId")),
+                jogadores = TODO(),
+                goleiro = TODO()
             )
             times.add(time)
         }

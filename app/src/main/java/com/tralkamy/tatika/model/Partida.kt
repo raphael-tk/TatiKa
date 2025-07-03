@@ -6,6 +6,8 @@ data class Partida(
     val rodada: Int,
     val mandanteId: Int,
     val visitanteId: Int,
-    val golsMandante: Int,
-    val golsVisitante: Int
+    val mandante: Time,
+    val visitante: Time,
+    var golsMandante: Int = 0,
+    var golsVisitante: Int = 0
 )
