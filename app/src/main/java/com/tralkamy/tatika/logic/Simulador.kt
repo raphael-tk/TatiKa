@@ -1,3 +1,5 @@
+//Simulador.kt
+
 package com.tralkamy.tatika.logic
 
 import android.util.Log
@@ -19,13 +21,11 @@ object Simulador {
         val folegoVisitante = timeVisitante.jogadores.associateWith { 100.0 }.toMutableMap()
 
         for (minuto in 1..90) {
-            // Sorteia quem ataca
             val atacante = if (Random.nextBoolean()) timeMandante else timeVisitante
             val defensor = if (atacante == timeMandante) timeVisitante else timeMandante
             val folegoA = if (atacante == timeMandante) folegoMandante else folegoVisitante
             val folegoD = if (defensor == timeMandante) folegoMandante else folegoVisitante
 
-            // Gera tipo de jogada
             val evento = sorteiaEvento()
 
             when (evento) {
@@ -57,7 +57,6 @@ object Simulador {
                 "nada" -> { /* passa o tempo */ }
             }
 
-            // Reduz folego dos jogadores
             folegoMandante.keys.forEach { f -> folegoMandante[f] = (folegoMandante[f]!! - 0.4).coerceAtLeast(30.0) }
             folegoVisitante.keys.forEach { f -> folegoVisitante[f] = (folegoVisitante[f]!! - 0.4).coerceAtLeast(30.0) }
         }
