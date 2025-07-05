@@ -11,3 +11,4 @@ data class Partida(
     var golsMandante: Int = 0,
     var golsVisitante: Int = 0
 )
+

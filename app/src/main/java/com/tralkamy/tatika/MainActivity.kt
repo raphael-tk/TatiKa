@@ -6,16 +6,17 @@ import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import com.tralkamy.tatika.data.db.TatiKaSQLiteHelper
+import com.tralkamy.tatika.data.bootstrap.BootstrapData
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch {
-            val dbHelper = TatiKaSQLiteHelper(this@MainActivity)
-            dbHelper.writableDatabase // força criação do banco
-            Log.d("MAIN", "Banco inicializado com sucesso!")
-        }
+        val dbHelper = TatiKaSQLiteHelper(this)
+        dbHelper.writableDatabase // força criação
+
+        // preencher com dados reais e atributos random
+        BootstrapData.preencherBanco(this)
     }
 
 }
